@@ -39,5 +39,8 @@ public class AnimalTest {
         // a concept that is not yet discussed in class. To be implemented.
     }
 
-
+    @Test
+    public void FailingTest(){
+        Assert.assertEquals("Niet goed", this.animal.name);
+    }
 }

@@ -50,7 +50,6 @@ public class AnimalShelterUI extends Application implements Observer {
     }
 
 
-
     @FXML
     private void btnAddAnimalClicked() {
         Gender gender = (Gender) group.getSelectedToggle().getUserData();
