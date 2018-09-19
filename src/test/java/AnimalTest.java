@@ -38,9 +38,4 @@ public class AnimalTest {
         // a way to account for this, but the solution will use interfaces:
         // a concept that is not yet discussed in class. To be implemented.
     }
-
-    @Test
-    public void FailingTest(){
-        Assert.assertEquals("Niet goed", this.animal.name);
-    }
 }
