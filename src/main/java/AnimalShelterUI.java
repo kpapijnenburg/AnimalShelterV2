@@ -1,6 +1,4 @@
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -9,9 +7,11 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Observable;
+import java.util.Observer;
 
 
-public class AnimalShelterUI extends Application {
+public class AnimalShelterUI extends Application implements Observer {
     public ComboBox cmbSpecies;
     public TextField txtName;
     public RadioButton radMale;
@@ -49,14 +49,7 @@ public class AnimalShelterUI extends Application {
 
     }
 
-    private void RefreshControls() {
-        lstAnimals.getItems().removeAll();
 
-        ObservableList<Animal> observableList = FXCollections.observableList(reservation.getAnimals());
-        lstAnimals.setItems(observableList);
-
-        System.out.println(observableList);
-    }
 
     @FXML
     private void btnAddAnimalClicked() {
@@ -64,15 +57,14 @@ public class AnimalShelterUI extends Application {
 
         if (cmbSpecies.getValue().toString() == "Cat"){
             Cat cat = new Cat(txtName.getText(), gender, txtBadHabits.getText());
-            reservation.NewCat(cat);
+            reservation.NewCat(cat, this);
         }
         else if (cmbSpecies.getValue().toString() == "Dog"){
             Dog dog = new Dog(txtName.getText(), gender);
-            reservation.NewDog(dog);
+            reservation.NewDog(dog, this);
         }
 
-        RefreshControls();
-
+        lstAnimals.setItems(reservation.Animals);
     }
 
     @FXML
@@ -81,10 +73,11 @@ public class AnimalShelterUI extends Application {
         Animal animal = (Animal) lstAnimals.getSelectionModel().getSelectedItem();
 
         if (animal != null){
-            animal.reserve(txtName.getText());
-            //control refresh werkt alleen wanneer er een dier word toegevoegd.
-            //Dit zal opgelost worden door het observer pattern toe te passen.
-            this.RefreshControls();
+            animal.reserve(txtReservor.getText());
         }
+    }
+
+    public void update(Observable o, Object arg) {
+        this.lstAnimals.refresh();
     }
 }

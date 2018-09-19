@@ -1,6 +1,7 @@
 import java.util.Date;
+import java.util.Observable;
 
-public class Animal {
+public class Animal extends Observable {
 
     public String name;
     public Gender gender;
@@ -33,12 +34,17 @@ public class Animal {
     public Animal(String name, Gender gender) {
         this.name = name;
         this.gender = gender;
+
     }
 
     public boolean reserve(String reservedBy) {
         if (this.reservedBy == null) {
             this.reservedBy = new Reservor
                     (reservedBy, new Date());
+
+            this.setChanged();
+            this.notifyObservers();
+
             return true;
         } else {
             return false;
@@ -53,4 +59,5 @@ public class Animal {
         }
         return this.name + ", " + this.gender.toString() + ", " + reserved + ", ";
     }
+
 }

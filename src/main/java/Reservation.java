@@ -1,5 +1,8 @@
-import java.util.ArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.util.List;
+import java.util.Observer;
 
 public class Reservation {
 
@@ -7,13 +10,15 @@ public class Reservation {
         return Animals;
     }
 
-    public List<Animal> Animals = new ArrayList<Animal>();
+    public ObservableList<Animal> Animals = FXCollections.observableArrayList();
 
-    public void NewCat(Cat cat){
+    public void NewCat(Cat cat, Observer o){
         this.Animals.add(cat);
+        cat.addObserver(o);
     }
 
-    public void NewDog(Dog dog){
+    public void NewDog(Dog dog, Observer o){
         this.Animals.add(dog);
+        dog.addObserver(o);
     }
 }
